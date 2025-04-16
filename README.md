@@ -38,14 +38,29 @@ Export any LLM model API keys:
 export OPENAI_API_KEY=<your OpenAI key here>
 `
 
-Our search is backed by Google Search API. The setup instructions can be found here: 
+Our search is backed by Google Search API. The setup instructions can be found [here](https://github.com/ManyaWadhwa/EvalAgent/blob/main/google_setup.md). 
+
+An alternate to Google API is to user [Serper](https://serper.dev/).
 
 [optional setup] 
-Reddit has a lot of instructional posts, so we use `praw` to scrap we also setup reddit scraping. You can find the setup here. This setup is optional, if the environment variables are not setup you won't get an error, we just won't include that URL.
+Reddit has a lot of instructional posts, so we use `praw` to scrap we also set up reddit scraping. You can find the setup instructions [here](https://github.com/ManyaWadhwa/EvalAgent/blob/main/reddit_setup.md). This setup is optional, if the environment variables are not setup you won't get an error, we just won't include that URL.
 
 ## Running EvalAgent
 
-Once you have the setup above, you can fill in `environment_variables.sh`
+Once you have gone through the setup above make sure you have the following variables populated in `environment_variables.sh`
+```
+## OpenAI if you using their models; else set up anthropic keys if needed
+export OPENAI_API_KEY=
+## Google search credentials 
+export GOOGLE_SEARCH_API_KEY=
+export CSE_ID=
+## OPTIONAL reddit credentials
+export reddit_client_id=
+export reddit_client_secret=
+export reddit_user_agent=
+export reddit_username=
+export reddit_password=
+```
 
 To run non-search based criteria generation you can run the following: 
 
