@@ -2,7 +2,7 @@
 
 EvalAgent is a framework designed to generate evaluation criteria from instructional web-documents. 
 
-![Overview of our proposed pipeline](/images/Eval_Agents_Overview.pdf)
+![Overview of our proposed pipeline](https://github.com/ManyaWadhwa/EvalAgent/blob/main/images/Eval_Agents_Overview.pdf)
 
 ## Overview 
 
