@@ -26,14 +26,10 @@ If you want to generate criteria _without_ searching, you can follow the setup u
 If generating criteria without search, you only need to provide the API key for query generation and aggregation steps. In this case we use OpenAI but you can also provide Anthropic APIs / any models hosted on vLLM. You can export the `OPENAI_API_KEY` in `environment_variables.sh`
 
 ### Search
-
-
 Our search is backed by Google Search API. The setup instructions can be found [here](https://github.com/ManyaWadhwa/EvalAgent/blob/main/google_setup.md).
 
-[//]: # (An alternate to Google API is to use [Serper](https://serper.dev/).)
-
 [optional setup] 
-Reddit has a lot of instructional posts, so we use `praw` to scrap we also set up reddit scraping. You can find the setup instructions [here](https://github.com/ManyaWadhwa/EvalAgent/blob/main/reddit_setup.md). This setup is optional, if the environment variables are not setup you won't get an error, we just won't include that URL.
+Reddit URLs are often retrieved by our search queries, so we use `praw` to scrap we also set up reddit scraping. You can find the setup instructions [here](https://github.com/ManyaWadhwa/EvalAgent/blob/main/reddit_setup.md). This setup is optional, if the environment variables are not setup you won't get an error, we just won't include that URL.
 
 ### Setup environment variables
 Once you have gone through the setup above make sure you have the following variables populated in `environment_variables.sh`
