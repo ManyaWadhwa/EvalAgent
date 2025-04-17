@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #4cc9f0;
+            --secondary: #7209b7;
+            --light-bg: #f8f9fa;
+            --border-radius: 8px;
+            --box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            --spacing: 1.5rem;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .header h1 {
+            color: var(--primary);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: var(--spacing);
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .card-header h2 {
+            font-size: 1.4rem;
+            color: var(--secondary);
+            font-weight: 500;
+        }
+
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-light);
+            transform: translateY(-2px);
+        }
+
+        /* Modified: Changed to 50/50 split */
+        .two-cols {
+            /*display: grid;*/
+            /*grid-template-columns: 0.75fr 1.25fr;*/
+            /*gap: 2rem;*/
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .user-instruction-full {
+            margin-top: 1rem;
+            background-color: #fff;
+            padding: 1rem;
+            border-radius: 4px;
+            border-left: 4px solid var(--primary);
+            color: #444;
+            font-size: 0.95rem;
+            white-space: pre-wrap;
+        }
+
+        /* Add this to the style section */
+        .queries-container {
+            max-height: 500px;
+            overflow-y: auto;
+            padding-right: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .queries-container::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .queries-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .queries-container::-webkit-scrollbar-thumb {
+            background: #ddd;
+            border-radius: 10px;
+        }
+
+        .queries-container::-webkit-scrollbar-thumb:hover {
+            background: #ccc;
+        }
+
+        .query-section {
+            background-color: #f9fff9;
+            border-left: 4px solid #4caf50;
+            transition: all 0.3s ease;
+        }
+
+        /* Add collapsible styles */
+        .query-section.collapsed .queries-container {
+            max-height: 0;
+            overflow: hidden;
+            padding: 0;
+            margin: 0;
+        }
+
+        .query-section.collapsed .url-item {
+            display: none;
+        }
+
+        .toggle-queries-btn {
+            background: none;
+            border: none;
+            color: var(--primary);
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .toggle-queries-btn:hover {
+            background-color: rgba(67, 97, 238, 0.1);
+        }
+
+        .toggle-queries-btn .icon {
+            transition: transform 0.3s ease;
+        }
+
+        .query-section.collapsed .toggle-queries-btn .icon {
+            transform: rotate(-90deg);
+        }
+
+        .query-section:not(.collapsed) .queries-container {
+            margin-top: 1rem;
+        }
+
+        .query-block {
+            background-color: #f5f9ff;
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-left: 3px solid var(--primary);
+            display: none; /* Hide all query blocks by default */
+        }
+
+        .query-block.active {
+            display: block; /* Show only active query block */
+        }
+
+        .query-title i {
+            margin-right: 0.5rem;
+        }
+
+        /* Query tabs navigation */
+        .query-tabs {
+            display: flex;
+            overflow-x: auto;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.5rem;
+        }
+
+        .query-tab {
+            padding: 0.5rem 1rem;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+            margin-right: 0.5rem;
+            cursor: pointer;
+            white-space: nowrap;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .query-tab:hover {
+            background-color: #e3e3e3;
+        }
+
+        .query-tab.active {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        /* Updated URL item styling */
+        .url-item {
+            background-color: #fff;
+            border-radius: 6px;
+            padding: 0.8rem;
+            margin-bottom: 0.8rem;
+            border: 1px solid #eaeaea;
+        }
+
+        .url-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.3rem;
+            display: block;
+        }
+
+        .url-content {
+            font-size: 0.95rem;
+            padding: 0.5rem;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            border-left: 3px solid #ddd;
+        }
+
+        /* New URL card components */
+        .url-title {
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--secondary);
+            margin-bottom: 0.4rem;
+        }
+
+        .url-link {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--primary);
+            word-break: break-all;
+            margin-bottom: 0.5rem;
+            text-decoration: none;
+        }
+
+        .url-link:hover {
+            text-decoration: underline;
+        }
+
+        .url-snippet {
+            font-size: 0.9rem;
+            color: #555;
+            /*padding: 0.5rem;*/
+            background-color: #f9f9f9;
+            border-radius: 4px;
+            /*border-left: 2px solid #ddd;*/
+            margin-top: 0.5rem;
+        }
+
+        .user-instruction {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-radius: 4px;
+            border-left: 4px solid var(--primary);
+            margin-bottom: 1rem;
+            color: #555;
+        }
+
+        /* Modified styles for the dropdown form */
+        .user-instruction-form {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .user-instruction-select {
+            flex: 1;
+            min-width: 0; /* Allow select to shrink if needed */
+            padding: 0.8rem 1rem;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            font-size: 1rem;
+            background-color: white;
+            text-overflow: ellipsis; /* Add ellipsis for overflow text */
+            max-width: 100%; /* Prevent breaking out of container */
+        }
+
+        /* Improve dropdown styling for proper text wrapping */
+        select.user-instruction-select {
+            width: 100%;
+        }
+
+        /* Fix for select options wrapping */
+        select.user-instruction-select option {
+            white-space: normal;
+            word-wrap: break-word;
+            padding: 8px;
+            line-height: 1.4;
+            max-width: 100%;
+        }
+
+        .user-instruction-select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.2);
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.3rem 0.6rem;
+            background-color: #e9ecef;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: #495057;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .criteria-tag {
+            background-color: #e3f2fd;
+            color: var(--primary);
+            border: 1px solid #bbdefb;
+            cursor: pointer;
+        }
+
+        .aspects-container {
+            max-height: 500px;
+            overflow-y: auto;
+            padding-right: 0.5rem;
+        }
+
+        .aspects-container::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .aspects-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .aspects-container::-webkit-scrollbar-thumb {
+            background: #ddd;
+            border-radius: 10px;
+        }
+
+        .aspects-container::-webkit-scrollbar-thumb:hover {
+            background: #ccc;
+        }
+
+        .aspect-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+
+        .aspect-item {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+            border: 1px solid #eaeaea;
+            transition: all 0.2s ease;
+        }
+
+        .aspect-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary-light);
+        }
+
+        .aspect-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.8rem;
+            flex-direction: row;
+            justify-content: flex-start;
+        }
+
+        .aspect-number {
+            background-color: var(--primary);
+            color: white;
+            width: 28px;
+            height: 28px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .aspect-title {
+            font-weight: 600;
+            color: #333;
+            flex: 1;
+        }
+
+        .aspect-content {
+            color: #555;
+            font-size: 0.95rem;
+        }
+
+        .aspect-search input {
+            width: 100%;
+            padding: 0.8rem;
+            padding-left: 2.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .aspect-search i {
+            position: absolute;
+            left: 0.8rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+        }
+
+        .aspect-stats {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-item {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 0.8rem;
+            flex: 1;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 0.2rem;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .results-section {
+      display:{% if has_data %}block{% else %}none{% endif %};
+    }
+        /* Hide results until analyze is clicked */
+        /*.results-section {*/
+        /*    display: {*/
+        /*% if has_data %*/
+        /*}*/
+
+        /*    block {*/
+        /*    % else %*/
+        /*    }*/
+
+        /*    none {*/
+        /*    % endif %*/
+        /*    }*/
+        /*;*/
+        /*}*/
+
+    /*    .results-section {*/
+    /*  display: none;*/
+    /*}*/
+
+    /*.results-section.active {*/
+    /*  display: block;*/
+    /*}*/
+
+        .supporting-url {
+            display: flex;
+            background-color: #f0f7ff;
+            padding: 0.8rem;
+            border-radius: 4px;
+            margin-bottom: 0.8rem;
+            border-left: 3px solid var(--primary-light);
+        }
+
+        .supporting-url i {
+            margin-right: 0.8rem;
+            color: var(--primary);
+            font-size: 1rem;
+            padding-top: 0.2rem;
+        }
+
+        .supporting-url-content {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .supporting-url-title {
+            font-weight: 600;
+            color: #444;
+            margin: 0 0 0.3rem 0;
+            font-size: 0.95rem;
+        }
+
+        .supporting-url-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            word-break: break-all;
+        }
+
+        .supporting-url-link:hover {
+            text-decoration: underline;
+        }
+
+        .add-url-section {
+            margin-top: 0.8rem;
+            text-align: center;
+        }
+
+        .feedback-form {
+            margin-top: 0.8rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .feedback-textarea {
+            width: 100%;
+            padding: 0.5rem;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            font-size: 0.85rem;
+            min-height: 60px;
+            resize: vertical;
+        }
+
+        .aspect-tab-content {
+            display: none;
+            padding-top: 0.8rem;
+        }
+
+        .aspect-tab-content.active {
+            display: block;
+        }
+
+        .add-manually-form input {
+            padding: 0.5rem;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 768px) {
+            .two-cols {
+                grid-template-columns: 1fr;
+            }
+
+            .aspect-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .query-tabs {
+                flex-wrap: wrap;
+            }
+
+            .aspect-stats {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .user-instruction-form {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        .custom-select-container {
+            position: relative;
+            width: 100%;
+            flex: 1;
+        }
+
+        .custom-select-button {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            font-size: 1rem;
+            background-color: white;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .custom-select-button:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.2);
+        }
+
+        .dropdown-arrow {
+            margin-left: 8px;
+            transition: transform 0.2s;
+        }
+
+        .dropdown-arrow.open {
+            transform: rotate(180deg);
+        }
+
+        .custom-select-options {
+            display: none;
+            position: absolute;
+            width: 100%;
+            max-height: 300px;
+            overflow-y: auto;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            margin-top: 4px;
+        }
+
+        .custom-select-options.active {
+            display: block;
+        }
+
+        .custom-option {
+            padding: 0.8rem 1rem;
+            cursor: pointer;
+            border-bottom: 1px solid #f0f0f0;
+            line-height: 1.4;
+            word-wrap: break-word;
+        }
+
+        .custom-option:last-child {
+            border-bottom: none;
+        }
+
+        .custom-option:hover, .custom-option.selected {
+            background-color: #f5f8ff;
+        }
+
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h2>User Instruction</h2>
+        </div>
+        <div class="user-instruction">
+            <!--        <form id="userPromptForm" class="user-instruction-form" method="POST" action="/analyze">-->
+            <!--          <select-->
+            <!--            id="userPromptSelect"-->
+            <!--            name="prompt"-->
+            <!--            class="user-instruction-select"-->
+            <!--            title="Select analysis prompt"-->
+            <!--            style="width: 100%;"-->
+            <!--          >-->
+            <!--            {% for prompt_item in available_prompts %}-->
+            <!--&lt;!&ndash;              <option value="{{ prompt_item }}" {% if prompt_item == prompt %}selected{% endif %}>&ndash;&gt;-->
+            <!--&lt;!&ndash;                {{ prompt_item }}&ndash;&gt;-->
+            <!--&lt;!&ndash;              </option>&ndash;&gt;-->
+            <!--              <option-->
+            <!--                  value="{{ prompt_item }}"-->
+            <!--                  {% if prompt_item == prompt %}selected{% endif %}-->
+            <!--                  title="{{ prompt_item }}">-->
+            <!--                  {{ prompt_item}}-->
+            <!--              </option>-->
+            <!--            {% endfor %}-->
+            <!--          </select>-->
+
+            <!--        </form>-->
+
+            <form id="userPromptForm" class="user-instruction-form" method="POST" action="/analyze">
+                <div class="custom-select-container">
+                    <button type="button" id="dropdownToggle" class="custom-select-button">
+                        <span id="selectedOption">{{ prompt or "Select a prompt..." }}</span>
+                        <span class="dropdown-arrow">▼</span>
+                    </button>
+                    <div id="dropdownOptions" class="custom-select-options">
+                        {% for prompt_item in available_prompts %}
+                        <div class="custom-option {% if prompt_item == prompt %}selected{% endif %}"
+                             data-value="{{ prompt_item }}">
+                            {{ prompt_item }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <input type="hidden" name="prompt" id="hiddenPromptInput" value="{{ prompt }}">
+                </div>
+                <button type="submit" class="btn">Analyze</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Results section - only shown after analyze is clicked and data is available -->
+    <div class="results-section">
+        <div class="two-cols">
+            <div class="queries-section">
+                <div class="card query-section collapsed">
+                    <div class="card-header">
+                        <h2>Queries and URLs</h2>
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <span class="tag">{{ query_count }} Queries</span>
+                            <span class="tag">{{ url_count }} URLs</span>
+                            <button class="toggle-queries-btn" onclick="toggleQueries()">
+                                <span class="icon">▼</span>
+                                <span class="toggle-text">Show URLs</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- New query tabs navigation -->
+                    <div class="query-tabs" id="queryTabs">
+                        {% for query_text in queries %}
+                        <div class="query-tab {% if loop.first %}active{% endif %}" data-query-id="{{ loop.index }}"
+                             onclick="switchQueryTab({{ loop.index }})">
+                            <!--                  Query {{ loop.index }}-->
+                            {{ query_text }}
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="queries-container">
+                        <div id="queriesContainer">
+                            {% for query_text, urls in queries.items() %}
+                            <div class="query-block {% if loop.first %}active{% endif %}"
+                                 data-query-id="{{ loop.index }}">
+
+                                {% for url_info in urls %}
+                                <div class="url-item" data-url-id="{{ url_info.url_id|default(loop.index) }}">
+                                    <span class="url-label">URL {{ loop.index }}:</span>
+
+                                    <!-- New URL card structure with title, link and snippet -->
+                                    <div class="url-content">
+                                        <h3 class="url-title">
+                                            {{ url_info.title|default('Result Title ' + loop.index|string) }}
+                                            <!-- Show criteria tags -->
+                                            <div class="criteria-tags">
+                                                {% if url_info.criteria %}
+                                                {% for criteria in url_info.criteria %}
+                                                <span class="tag criteria-tag" data-criteria-id="{{ criteria.id }}">{{ criteria.name }}</span>
+                                                {% endfor %}
+                                                {% endif %}
+                                            </div>
+                                        </h3>
+                                        <a href="{{ url_info.url|default('#') }}" class="url-link" target="_blank">
+                                            {{ url_info.url|default('https://example.com/result-' + loop.index|string)
+                                            }}
+                                        </a>
+                                        <div class="url-snippet">
+                                            {{ url_info.snippet|default('This is a sample text snippet extracted from
+                                            the URL content. It provides a brief summary of what users can expect to
+                                            find on this page.') }}
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="aspects-section">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Generated Criteria</h2>
+                        <span class="tag">{{ aspect_count }} Criteria</span>
+                    </div>
+
+                    <div class="aspect-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">{{ aspect_count }}</div>
+                            <div class="stat-label">Total Criteria</div>
+                        </div>
+                    </div>
+
+                    <div class="aspects-container">
+                        <div class="aspect-grid">
+                            {% for aspect in aspects %}
+                            <div class="aspect-item" data-aspect-id="{{ loop.index }}">
+                                <div class="aspect-header">
+                                    <span class="aspect-number">{{ loop.index }}</span>
+                                    <span class="aspect-title">{{ aspect.title }}</span>
+                                </div>
+
+                                <!-- Supporting URLs Tab -->
+                                <div id="urls-tab-{{ loop.index }}" class="aspect-tab-content active">
+                                    <div class="supporting-urls" id="supporting-urls-{{ loop.index }}">
+                                        <!-- This will be populated dynamically -->
+                                        {% if aspect.supporting_urls %}
+                                        {% for url in aspect.supporting_urls %}
+                                        <div class="supporting-url">
+                                            <i class="fas fa-link"></i>
+                                            <div class="supporting-url-content">
+                                                <h4 class="supporting-url-title">{{ url.title }}</h4>
+                                                <a href="{{ url.url }}" class="supporting-url-link" target="_blank">{{
+                                                    url.url }}</a>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                        {% else %}
+<!--                                        <div class="no-urls">No supporting URLs yet</div>-->
+                                        {% endif %}
+                                    </div>
+
+                                    <!-- Add URL manually section -->
+                                    <div class="add-manually-section">
+                                        <div class="add-url-section">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Feedback Tab -->
+                                <div id="feedback-tab-{{ loop.index }}" class="aspect-tab-content">
+                                    <form class="feedback-form" onsubmit="submitFeedback(event, {{ loop.index }})">
+                        <textarea
+                                class="feedback-textarea"
+                                placeholder="Suggest improvement for this criteria..."
+                                id="feedback-{{ loop.index }}"
+                        ></textarea>
+                                        <button type="submit" class="btn">Submit Suggestion</button>
+                                    </form>
+                                </div>
+                            </div>
+                            {% endfor %}
+
+                            {% if not aspects %}
+                            <div class="aspect-item">
+                                <div class="aspect-header">
+                                    <span class="aspect-number">1</span>
+                                    <span class="aspect-title">No criteria available</span>
+                                </div>
+                                <div class="aspect-content">
+                                    No aspects found in data. Run analysis to generate insights.
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const dropdownToggle = document.getElementById('dropdownToggle');
+        const dropdownOptions = document.getElementById('dropdownOptions');
+        const hiddenInput = document.getElementById('hiddenPromptInput');
+        const selectedOption = document.getElementById('selectedOption');
+        const dropdownArrow = document.querySelector('.dropdown-arrow');
+        const customOptions = document.querySelectorAll('.custom-option');
+
+        // Toggle dropdown when button is clicked
+        dropdownToggle.addEventListener('click', function (e) {
+            e.preventDefault();
+            dropdownOptions.classList.toggle('active');
+            dropdownArrow.classList.toggle('open');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function (e) {
+            if (!dropdownToggle.contains(e.target) && !dropdownOptions.contains(e.target)) {
+                dropdownOptions.classList.remove('active');
+                dropdownArrow.classList.remove('open');
+            }
+        });
+
+        // Handle option selection
+        customOptions.forEach(option => {
+            option.addEventListener('click', function () {
+                const value = this.getAttribute('data-value');
+
+                // Update hidden input value
+                hiddenInput.value = value;
+
+                // Update visible text
+                selectedOption.textContent = value;
+
+                // Mark as selected
+                customOptions.forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+
+                // Close dropdown
+                dropdownOptions.classList.remove('active');
+                dropdownArrow.classList.remove('open');
+
+                // Optional: Submit the form automatically if needed
+                // document.getElementById('userPromptForm').submit();
+            });
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        console.log('Query Analysis Tool visualization loaded');
+
+        // Initialize with query section collapsed
+        const querySection = document.querySelector('.query-section');
+        if (querySection) {
+            querySection.classList.add('collapsed');
+        }
+
+        // Add click event for criteria tags
+        document.querySelectorAll('.criteria-tag').forEach(tag => {
+            tag.addEventListener('click', function () {
+                const criteriaId = this.getAttribute('data-criteria-id');
+                // Scroll to the criteria element
+                const criteriaElement = document.querySelector(`.aspect-item[data-aspect-id="${criteriaId}"]`);
+                if (criteriaElement) {
+                    criteriaElement.scrollIntoView({behavior: 'smooth', block: 'center'});
+                    // Highlight the element briefly
+                    criteriaElement.style.backgroundColor = '#fff8e1';
+                    setTimeout(() => {
+                        criteriaElement.style.backgroundColor = '';
+                    }, 2000);
+                }
+            });
+        });
+
+        // Setup the first query tab as active by default
+        if (document.querySelector('.query-tab')) {
+            const firstQueryId = document.querySelector('.query-tab').getAttribute('data-query-id');
+            if (firstQueryId) {
+                switchQueryTab(firstQueryId);
+            }
+        }
+
+        // Fix select element dropdown options to show full text
+        const selectElement = document.getElementById('userPromptSelect');
+        if (selectElement) {
+            // When the browser renders the dropdown with options,
+            // ensure each option has a proper width to display the full text
+            selectElement.addEventListener('mousedown', function () {
+                // This forces the browser to recalculate the dropdown width
+                // based on the content inside each option
+                setTimeout(() => {
+                    const options = document.querySelectorAll('#userPromptSelect option');
+                    options.forEach(option => {
+                        option.style.width = 'auto';
+                        option.style.minWidth = '100%';
+                    });
+                }, 0);
+            });
+        }
+    });
+
+    // Function to toggle the query section collapse/expand
+    function toggleQueries() {
+        const querySection = document.querySelector('.query-section');
+        querySection.classList.toggle('collapsed');
+
+        // Update button text
+        const toggleText = querySection.classList.contains('collapsed') ?
+            'Show URLs' : 'Hide URLs';
+        document.querySelector('.toggle-text').textContent = toggleText;
+
+        // If expanding, ensure the active query tab content is visible
+        if (!querySection.classList.contains('collapsed')) {
+            const activeTabId = document.querySelector('.query-tab.active')?.getAttribute('data-query-id');
+            if (activeTabId) {
+                switchQueryTab(activeTabId);
+            }
+        }
+    }
+
+    // Function to switch between query tabs
+    function switchQueryTab(queryId) {
+        // Hide all query blocks
+        document.querySelectorAll('.query-block').forEach(block => {
+            block.classList.remove('active');
+        });
+
+        // Show the selected query block
+        const selectedBlock = document.querySelector(`.query-block[data-query-id="${queryId}"]`);
+        if (selectedBlock) {
+            selectedBlock.classList.add('active');
+        }
+
+        // Update tab active state
+        document.querySelectorAll('.query-tab').forEach(tab => {
+            tab.classList.remove('active');
+        });
+
+        const selectedTab = document.querySelector(`.query-tab[data-query-id="${queryId}"]`);
+        if (selectedTab) {
+            selectedTab.classList.add('active');
+        }
+    }
+
+    // Function to show tab content
+    function showTab(aspectId, tabName) {
+        // Hide all tab contents for this aspect
+        document.querySelectorAll(`.aspect-item[data-aspect-id="${aspectId}"] .aspect-tab-content`).forEach(tab => {
+            tab.classList.remove('active');
+        });
+
+        // Show selected tab content
+        document.getElementById(`${tabName}-tab-${aspectId}`).classList.add('active');
+
+        // Update tab buttons
+        document.querySelectorAll(`.aspect-item[data-aspect-id="${aspectId}"] .aspect-tab`).forEach(button => {
+            button.classList.remove('active');
+        });
+
+        // Find the button that was clicked and make it active
+        event.target.classList.add('active');
+    }
+
+    // Function to submit feedback
+    function submitFeedback(event, aspectId) {
+        event.preventDefault();
+        const feedbackText = document.getElementById(`feedback-${aspectId}`).value;
+
+        if (feedbackText.trim()) {
+            alert(`Feedback submitted for criteria ${aspectId}: ${feedbackText}`);
+            document.getElementById(`feedback-${aspectId}`).value = '';
+        }
+    }
+</script>
+</body>
+</html>
