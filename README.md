@@ -1,17 +1,16 @@
 # EvalAgent
 
-EvalAgent is a framework designed to generate evaluation criteria from instructional web-documents. 
+We propose **EvalAgent**, aimed at extracting evaluation criteria from instructional web documents. Our framework comprises several key components. At a high level, given a user promopt, we first generate search queries that can be easily answered using instructional web documents. After retrieving such documents, we generate answers for the search queries. We then combine these answers to generate an evaluation criteria that is grounded in instructional documents.
 
 <img src="images/Eval_Agents_Overview.png" width="90%" height="75%">
 
-## Overview 
-
-We propose **EvalAgent**, aimed at extracting evaluation criteria from instructional web documents. Our framework comprises several key components. At a high level, given a user promopt, we first generate search queries that can be easily answered using instructional web documents. After retrieving such documents, we generate answers for the the search queries. We then combine these answers to define our evaluation criteria. 
-
+The figure above gives an overview of our framework. 
+1. Step 1: Query Generation 
+2. Step 2: Expert Web Retriever 
+3. Step 3: Criteria Generator 
 
 ## 🛠️ Installation 
-To setup EvalAgent clone the repo and install the required dependencies 
-
+To setup EvalAgent clone the repo and install the required dependencies
 `
 pip install -r requirements.txt
 `
