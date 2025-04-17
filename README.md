@@ -71,4 +71,8 @@ Default `query_model`, `aggregator_model` and `answer_model` is set to be: `gpt-
 
 ## Visualization 
 
-We also have a flask-based UI where you can load the jsonl output from the search-based criteria generation.
+We also have a flask-based UI where you can load the jsonl output from the search-based criteria generation. You can load the UI with the following command:
+```
+cd data/
+python app.py --data ../data/sample_data_criteria_search.jsonl
+```
