@@ -23,7 +23,7 @@ To set up a custom Google Search API and obtain an API key and CSE (Custom Searc
 2. **Create API key**:
    - On the Credentials page, click on **Create credentials**.
    - Select **API key** from the dropdown.
-   - An API key will be generated. Copy it and keep it in a secure place.
+   - An API key will be generated. Copy it and add to your `environment_variables.sh`.
    
    **Note**: You can restrict the API key by clicking on the "Restrict Key" button to limit usage to specific IPs or referrers.
 
@@ -34,15 +34,15 @@ To set up a custom Google Search API and obtain an API key and CSE (Custom Searc
 
 2. **Create a new Custom Search Engine**:
    - Click on **Add** to create a new search engine.
-   - In the form, enter the websites you want your search engine to query. If you want to search the entire web, enter `*.com` or `*` to search across all websites. (You can refine it later).
+   - In the form just select `Search the entire web`. Image Search and SafeSearch can be off depending on your requirements.
    - Click **Create**.
 
 3. **Get your CSE ID**:
    - Once the CSE is created, click on the **Control Panel** of your Custom Search Engine.
    - On the left, find the **Details** section.
-   - Your **Search Engine ID** (CSE ID) will be listed here. Copy it.
+   - Your **Search Engine ID** (CSE ID) will be listed here. Copy it and add to your `environment_variables.sh`.
 
-### Step 4: Using the Custom Search API
+### [OPTIONAL TO TEST IF THE API KEY WORKS] Step 4: Using the Custom Search API
 - Now that you have both the **API key** and **CSE ID**, you can use them to make requests to the Custom Search API.
 
 To test, here’s an example of how to make a search request using Python:
