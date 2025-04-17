@@ -16,7 +16,7 @@ To setup EvalAgent clone the repo and install the required dependencies
 pip install -r requirements.txt
 `
 
-Along with the environment setup we need to following to run EvalAgent:
+After setting the environment, we need to set a few keys/environment variables to do the following:
 1. Model API keys you want to use for running query generation, answering and criteria aggregation 
 2. Search setup - for retrieving URLs
 
@@ -24,29 +24,19 @@ If you want to generate criteria _without_ searching, you can follow the setup u
 
 
 ### Direct LLM  
-If generating criteria without search, you only need to provide the API key for query generation and aggregation steps. In this case we use OpenAI but you can also provide Anthropic APIs / any models hosted on vLLM.
-
-`
-export OPENAI_API_KEY=<your OpenAI key here>
-`
+If generating criteria without search, you only need to provide the API key for query generation and aggregation steps. In this case we use OpenAI but you can also provide Anthropic APIs / any models hosted on vLLM. You can export the `OPENAI_API_KEY` in `environment_variables.sh`
 
 ### Search
 
-Export any LLM model API keys:
 
-`
-export OPENAI_API_KEY=<your OpenAI key here>
-`
+Our search is backed by Google Search API. The setup instructions can be found [here](https://github.com/ManyaWadhwa/EvalAgent/blob/main/google_setup.md).
 
-Our search is backed by Google Search API. The setup instructions can be found [here](https://github.com/ManyaWadhwa/EvalAgent/blob/main/google_setup.md). 
-
-An alternate to Google API is to user [Serper](https://serper.dev/).
+[//]: # (An alternate to Google API is to use [Serper](https://serper.dev/).)
 
 [optional setup] 
 Reddit has a lot of instructional posts, so we use `praw` to scrap we also set up reddit scraping. You can find the setup instructions [here](https://github.com/ManyaWadhwa/EvalAgent/blob/main/reddit_setup.md). This setup is optional, if the environment variables are not setup you won't get an error, we just won't include that URL.
 
-## Running EvalAgent
-
+### Setup environment variables
 Once you have gone through the setup above make sure you have the following variables populated in `environment_variables.sh`
 ```
 ## OpenAI if you using their models; else set up anthropic keys if needed
@@ -62,18 +52,22 @@ export reddit_username=
 export reddit_password=
 ```
 
+## Running EvalAgent
+
 To run non-search based criteria generation you can run the following: 
 
 ```
-python get_aspects.py --input_file sample_data.jsonl --output_file sample_data_criteria.jsonl --query_generator <model_name> --answer_model <model_name> --aggregator_model <model_name>
+./environment_variables.sh
+python run_ea_criteria.py --input_file data/sample.jsonl --output_file data/sample_data_criteria_llm.jsonl 
 ```
 
 To run search based criteria generation you can run the following:
 ```
-python get_aspects.py --input_file sample_data.jsonl --output_file sample_data_criteria.jsonl --query_generator <model_name> --answer_model <model_name> --aggregator_model <model_name> --search
+./environment_variables.sh
+python run_ea_criteria.py --input_file data/sample.jsonl --output_file data/sample_data_criteria_search.jsonl --search
 ```
 
-By default <model_name> is setup to be: ```gpt-4o-mini-2024-07-18```
+Default `query_model`, `aggregator_model` and `answer_model` is set to be: `gpt-4o-mini-2024-07-18`.
 
 ## Visualization 
 
