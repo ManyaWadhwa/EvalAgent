@@ -67,7 +67,7 @@ To set up API keys for using Reddit and the PRAW (Python Reddit API Wrapper) lib
 3. **Run your script**:
    Save your Python script and run it. If everything is set up correctly, it should print out the top posts from the "learnpython" subreddit.
 
-### Step 5: Access Reddit Data Using PRAW
+### [OPTIONAL TO TEST IF THE API KEY WORKS] Step 5: Access Reddit Data Using PRAW
 Once you've authenticated, you can start interacting with Reddit’s API to gather data.
 
 Here are some sample PRAW commands:
