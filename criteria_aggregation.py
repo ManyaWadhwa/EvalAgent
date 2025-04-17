@@ -89,7 +89,7 @@ Checklist should:
 - **Be comprehensive, but concise**, meaning that all criteria directly relevant to the INSTRUCTION should be represented by the checklist, but only criteria that are very clearly relevant should be included.
 - **Be precise**, meaning that checklist should avoid vague wording and evaluate specific aspects of a response, directly using the phrasing of the INSTRUCTION where appropriate.
 
-Give a new line separated numbered list, where each line is one constraint. Ensure they are rephrased to align with the instruction.
+Give a new line separated numbered list, where each line is one constraint. Ensure they are rephrased to align with the instruction and starts with 'the response should..'
 """
 
     response = get_response(prompt=prompt, model_name =aggregation_model)
