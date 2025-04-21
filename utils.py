@@ -1,4 +1,21 @@
 import re
+import pandas
+import yaml
+import os
+
+def load_config(path="config.yaml"):
+    with open(path, "r") as f:
+        return yaml.safe_load(f)
+
+def load_data(path):
+    if path.endswith("jsonl"):
+        data = pandas.read_json(path, lines=True)
+    elif path.endswith("xlsx"):
+        data = pandas.read_excel(path)
+    else:
+        raise ValueError("Unsupported file type. Please use either a JSONL or XLSX file. TBA: HF support..")
+    return data
+
 
 def remove_numbers_from_sentences(text):
     if len(text) == 0:
