@@ -1,0 +1,11 @@
+input_file: "data/sample.jsonl"
+output_file: "data/sample_test_llm_and_ea_web_merged.jsonl"
+ea: true
+llm: true
+search: true
+score: true
+query_model: gpt-4o-mini-2024-07-18
+aggregator_model: gpt-4o-mini-2024-07-18
+answer_model: gpt-4o-mini-2024-07-18
+scoring_model: gpt-4o-mini-2024-07-18
+n: 10
