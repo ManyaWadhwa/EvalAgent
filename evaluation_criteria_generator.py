@@ -119,7 +119,7 @@ class EvaluationCriteriaGenerator:
 
     def process_data(self) -> Any:
         """Process input data and generate evaluation aspects"""
-        input_data = load_data(self.input_file)[:2]
+        input_data = load_data(self.input_file)
         print(f"Number of instances: {len(input_data)}")
 
         with open(self.output_file, "w") as output_file:
