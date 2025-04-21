@@ -103,6 +103,19 @@ class EvaluationCriteriaGenerator:
         instance_data['merged_source_indicators'] = merged_source_indicators
         return instance_data
 
+    def process_instance(self, instance_data: Dict[str, Any]):
+        instruction = instance_data["instruction"]
+        if self.ea:
+            print("Generating EA Criteria..")
+            instance_data = self.get_ea_criteria(instruction=instruction, instance_data=instance_data)
+        if self.llm:
+            print("Generating LLM-n Criteria..")
+            instance_data = self.get_llm_criteria(instruction=instruction, instance_data=instance_data)
+
+        if self.score:
+            print("Scoring and Merging Criteria..")
+            instance_data = self.score_and_merge(instance_data=instance_data)
+        return instance_data
 
     def process_data(self) -> Any:
         """Process input data and generate evaluation aspects"""
@@ -113,17 +126,7 @@ class EvaluationCriteriaGenerator:
             for i, row in input_data.iterrows():
                 print(f"Running instance {i}...")
                 instance_data = row.to_dict()
-                instruction = instance_data["instruction"]
-                if self.ea:
-                    print("Generating EA Criteria..")
-                    instance_data = self.get_ea_criteria(instruction=instruction, instance_data=instance_data)
-                if self.llm:
-                    print("Generating LLM-n Criteria..")
-                    instance_data = self.get_llm_criteria(instruction=instruction, instance_data=instance_data)
-
-                if self.score:
-                    print("Scoring and Merging Criteria..")
-                    instance_data = self.score_and_merge(instance_data=instance_data)
+                instance_data = self.process_instance(instance_data)
                 # Write results to output file
                 output_file.write(json.dumps(instance_data))
                 output_file.write("\n")
