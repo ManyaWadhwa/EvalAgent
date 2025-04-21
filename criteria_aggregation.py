@@ -143,5 +143,5 @@ def post_query_summarization_and_filtering(instruction, criteria, aggregation_mo
         "criteria":filtered_criteria,
         "rewritten_criteria":rewritten_constriants,
         "filtering_criteria":filtering_output,
-        "pre_filtering_criteria":criteria,
+        "pre_filtering_criteria":rewritten_constriants,
     }
