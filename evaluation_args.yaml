@@ -1,0 +1,6 @@
+input_file: "data/sample_with_responses.jsonl"
+output_file: "data/sample_test_evaluation.jsonl"
+generate_criteria: true
+criteria_generator_config: "criteria_gen_args.yaml"
+criteria_column: "ea_criteria"
+evaluation_model: gpt-4o-mini-2024-07-18
