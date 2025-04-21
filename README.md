@@ -1,6 +1,6 @@
 # EvalAgent
 
-We propose **EvalAgent**, aimed at extracting evaluation criteria from instructional web documents. Our framework comprises several key components. At a high level, given a user promopt, we first generate search queries that can be easily answered using instructional web documents. After retrieving such documents, we generate answers for the search queries. We then combine these answers to generate an evaluation criteria that is grounded in instructional documents.
+We propose **EvalAgent**, aimed at extracting evaluation criteria from instructional web documents. Our framework comprises several key components. At a high level, given a user promopt, we first generate search queries that can be easily answered using instructional web documents. After retrieving such documents, we generate answers for the search queries. We then combine these answers to generate evaluation criteria that is grounded in instructional documents.
 
 <img src="images/Eval_Agents_Overview.png" width="90%" height="75%">
 
@@ -43,28 +43,58 @@ export reddit_password=
 
 ## Running EvalAgent
 
-Our proposed method can be run in two setups:
-1. without search: EA-LLM 
-2. with search: EA-Web (proposed system in the paper)
+Our proposed method does the following:
+1. generates criteria based on instruction web-documents (EA-Web) 
+2. combines EA-Web with LLM-prompted criteria (EA-Full)
 
-
-To run EA-LLM:
-
+To generate the proposed criteria, set the arguments as following:
 ```
+[criteria_gen_args.yaml]
+input_file: "data/sample.jsonl"
+output_file: "data/sample_criteria.jsonl"
+ea: true
+llm: true
+search: true
+score: true
+query_model: gpt-4o-mini-2024-07-18
+aggregator_model: gpt-4o-mini-2024-07-18
+answer_model: gpt-4o-mini-2024-07-18
+scoring_model: gpt-4o-mini-2024-07-18
+n: 10 
+
 ./environment_variables.sh
-python run_ea_criteria.py --input_file data/sample.jsonl --output_file data/sample_data_criteria_llm.jsonl 
+
+python criteria_generator.py --config criteria_gen_args.yaml
 ```
 
-To run EA-web criteria generation:
+the output file has the following criteria:
+1. llm_criteria : LLM prompted criteria that generates _n_ criteria 
+2. ea_criteria: EA-Web criteria generated from instructional web documents 
+3. ea_full_criteria: merged criteria that combines LLM and EA-Web 
+
+## Evaluating with EvalAgent 
+
 ```
-./environment_variables.sh
-python run_ea_criteria.py --input_file data/sample.jsonl --output_file data/sample_data_criteria_search.jsonl --search
 ```
 
-Default `query_model`, `aggregator_model` and `answer_model` is set to be: `gpt-4o-mini-2024-07-18`.
+## Alternate modes for EvalAgent
 
-## EA-Full 
-TBA
+Our proposed method can be run in three other modes:
+1. LLM-n: 
+2. EvalAgent-LLM: this mode generates criteria by prompting an LLM to answer the queries and combining the LLM output
+3. EvalAgent-Web (proposed): this mode generates criteria by searching the web for queries and combining instructional information from these web documents
+
+To run only LLM-n use the following config:
+```
+```
+
+To run only EvalAgent-LLM use the following config:
+```
+```
+
+To run only EvalAgent-Web use the following config:
+```
+```
 
 ## Visualization 
 
