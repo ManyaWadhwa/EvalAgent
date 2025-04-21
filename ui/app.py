@@ -94,13 +94,13 @@ def load_data(data_path):
                             meta_data = [{"title": f['name'], 'url': f['url'], "snippet": f['snippet']} for f in
                                          filtered_results]
                             queries[query] = meta_data
-                        aspects_with_url = get_url_supported_criteria_list(search_results, line_json['criteria'])
+                        aspects_with_url = get_url_supported_criteria_list(search_results, line_json['ea_criteria'])
                         processed_line = {"prompt": line_json['instruction'],
                                           'aspects': aspects_with_url,
                                           'query': queries}
                     else:
                         search_results = None
-                        aspects_with_url = get_url_supported_criteria_list(search_results, line_json['criteria'])
+                        aspects_with_url = get_url_supported_criteria_list(search_results, line_json['ea_criteria'])
                         queries = {q:[] for q in line_json['query_responses']}
                         processed_line = {"prompt": line_json['instruction'],
                                           'aspects': aspects_with_url,
