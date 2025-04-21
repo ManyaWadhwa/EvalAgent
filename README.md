@@ -53,7 +53,7 @@ EvalAgent generates evaluation criteria using two complementary sources:
 
 (2) EA-Web: extracted from instructional web documents through retrieval and aggregation.
 
-These are then combined to produce the final output: **EA-Full** — a combined set of evaluation criteria sorted by their relevance to the user-prompt. 
+These are then combined to produce the final output: **EA-Full**, a combined set of evaluation criteria sorted by their relevance to the user-prompt. 
 
 To generate **EA-Full**, set up your config file (`criteria_gen_args.yaml`) like so:
 ```
@@ -104,7 +104,7 @@ You may use any of the three generated criteria types (_llm_criteria_, _ea_crite
 
 ## ⚙️  Alternate modes for criteria gen with EvalAgent
 
-You can flexibly run EvalAgent criteria generation in different modes depending on your needs:
+You can flexibly run EvalAgent criteria generation in different modes. In all cases, the rest of the config (models, n, input/output files) remains the same but the flags need to be modified as following:
 
 ### 🔹LLM-_n_
 Only generating LLM prompted criteria
@@ -131,9 +131,6 @@ llm: false
 search: true
 score: false
 ```
-
-In all cases, the rest of the config (models, n, input/output files) remains the same.
-
 
 ## 🖥️ Visualization 
 
