@@ -139,3 +139,7 @@ EvalAgent includes a Flask-based UI to visualize criteria generated via search.
 cd data/
 python app.py --data ../data/sample_data_criteria_search.jsonl
 ```
+
+Here is a sample visualization of the criteria generated for `sample.jsonl`
+
+![](images/sample_visualization.mp4)
