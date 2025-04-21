@@ -47,12 +47,15 @@ export reddit_password=
 
 ## 🚀  Running EvalAgent
 
-EvalAgent supports two modes:
+EvalAgent generates evaluation criteria using two complementary sources:
 
-1. EA-Web: Criteria generation based on instructional documents. 
-2. EA-Full: Combines EA-Web with criteria generated via LLM prompting.
+(1) LLM-_n_: generated directly via prompting an LLM (n criteria).
 
-Set up your config file (`criteria_gen_args.yaml`) like so:
+(2) EA-Web: extracted from instructional web documents through retrieval and aggregation.
+
+These are then combined to produce the final output: **EA-Full** — a combined set of evaluation criteria sorted by their relevance to the user-prompt. 
+
+To generate **EA-Full**, set up your config file (`criteria_gen_args.yaml`) like so:
 ```
 input_file: "data/sample.jsonl"
 output_file: "data/sample_criteria.jsonl"
@@ -104,6 +107,7 @@ You may use any of the three generated criteria types (_llm_criteria_, _ea_crite
 You can flexibly run EvalAgent criteria generation in different modes depending on your needs:
 
 ### 🔹LLM-_n_
+Only generating LLM prompted criteria
 ```
 ea: false
 llm: true
