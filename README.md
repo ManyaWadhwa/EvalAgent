@@ -142,4 +142,4 @@ python app.py --data ../data/sample_data_criteria_search.jsonl
 
 Here is a sample visualization of the criteria generated for `sample.jsonl`
 
-![](images/sample_visualization.mp4)
+https://github.com/ManyaWadhwa/EvalAgent/blob/main/images/sample_visualization.mp4
