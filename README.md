@@ -9,7 +9,6 @@ At a high level, given a user prompt, EvalAgent:
 
 <img src="images/Eval_Agents_Overview.png" width="90%" height="75%">
 
-
 ## 🛠️ Installation 
 First, install the required dependencies:
 
@@ -145,3 +144,16 @@ Here is a sample visualization of the criteria generated for `sample.jsonl`
 
 https://github.com/user-attachments/assets/ebd59f7a-170a-4651-a6ee-df0ff8a2f916
 
+
+## Paper and citation 
+You can find the arxiv paper [here](https://arxiv.org/pdf/2504.15219).
+
+```
+@InProceedings{,
+  title = {EvalAgent: Discovering Implicit Evaluation Criteria from the Web},
+  author = {Manya Wadhwa and Zayne Sprague and Chaitanya Malaviya and Philippe Laban and Junyi Jessy Li and Greg Durrett},
+  booktitle = {arXiv},
+  year = {2025},
+  url={https://arxiv.org/abs/2504.15219}, 
+}
+```
