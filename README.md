@@ -1,11 +1,10 @@
 # EvalAgent
 
 EvalAgent is a framework for extracting evaluation criteria from instructional web documents. It consists of several components that work together to generate grounded evaluation criteria.
-At a high level, given a user prompt:
-1. We generate search queries based on the prompt.
-2. Retrieve relevant instructional web documents.
-3. Generate answers to the queries.
-4. Aggregate these answers into evaluation criteria grounded in instructional content.
+At a high level, given a user prompt, EvalAgent:
+1. Generates search queries
+2. Retrieves relevant instructional web documents, generate answers to the queries and summarizes them to a query specific criteria
+3. Aggregates query-criteria answers into an evaluation criteria grounded in instructional content
 
 
 <img src="images/Eval_Agents_Overview.png" width="90%" height="75%">
@@ -55,7 +54,7 @@ EvalAgent generates evaluation criteria using two complementary sources:
 
 These are then combined to produce the final output: **EA-Full**, a combined set of evaluation criteria sorted by their relevance to the user-prompt. 
 
-To generate **EA-Full**, set up your config file (`criteria_gen_args.yaml`) like so:
+To generate **EA-Full**, use the given `criteria_gen_args.yaml` file:
 ```
 input_file: "data/sample.jsonl"
 output_file: "data/sample_criteria.jsonl"
