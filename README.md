@@ -151,7 +151,8 @@ Here is a sample visualization of the criteria generated for `sample.jsonl`
 https://github.com/user-attachments/assets/ebd59f7a-170a-4651-a6ee-df0ff8a2f916
 
 ## Data 
-Criteria generated for datasets in the paper coming soon!
+We have uploaded the data for different datasets to huggingface! 
+[wadhma/evalagent](https://huggingface.co/datasets/wadhma/evalagent)
 
 ## Paper and citation 
 You can find the arxiv paper [here](https://arxiv.org/pdf/2504.15219).
